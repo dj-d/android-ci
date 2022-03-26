@@ -13,26 +13,62 @@ docker pull djalba98/ionic-android-ci:latest
 ## Usage in GitLab CI
 
 ```
-image: djalba98/ionic-android-ci
-    
 stages:
-    - build
+  - dependencies
+  - build
 
-assembleDebug:
-    stage: build
-    script:
-        - npm install
-        - ionic build
-        - jetify
-        - cordova-res android --skip-config --copy
-        - ionic cap sync --prod android
-        - cp google-service.json platforms/android/app/.
-        - ionic cap build android
-        - cp platforms/android/app/build/outputs/apk/debug/app-debug.apk app-debug.apk
-    artifacts:
-        paths:
-            - app-debug.apk
-        expire_in: 3 day
-    only:
-        - master
+install_dependencies:
+  stage: dependencies
+  
+  image: node:16-alpine
+  
+  script:
+    - npm install
+  
+  only:
+    - master
+  
+  cache:
+    key:
+      files:
+        - package-lock.json
+    
+    paths:
+      - node_modules
+
+build_image:
+  stage: build
+  
+  image: djalba98/ionic-android-ci
+  
+  script:
+    - ionic cap add android
+    - jetify
+    - cordova-res android --skip-config --copy
+    - ionic cap sync --prod android
+    - cp google-services.json android/app/.
+    - cd android
+    - ./gradlew assembleDebug
+    - cd ..
+    - cp android/app/build/outputs/apk/debug/app-debug.apk .
+  
+  only:
+    - master
+  
+  cache:
+    key:
+      files:
+        - package-lock.json
+    
+    paths:
+      - node_modules
+    
+    policy: pull
+  
+  artifacts:
+    paths:
+      - app-debug.apk
+    
+    expire_in: 3 day
+
 ```
