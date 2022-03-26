@@ -1,5 +1,5 @@
-<a href="https://hub.docker.com/repository/docker/grosa1/ionic-android-ci">
-        <img src="https://img.shields.io/docker/pulls/grosa1/ionic-android-ci.svg?style=flat-square&color=brightgreen&logo=docker&logoColor=white"
+<a href="https://hub.docker.com/repository/docker/djalba98/ionic-android-ci">
+        <img src="https://img.shields.io/docker/pulls/djalba98/ionic-android-ci.svg?style=flat-square&color=brightgreen&logo=docker&logoColor=white"
             alt="Pulls"></a> 
 
 ## Docker Image for Ionic Android CI
