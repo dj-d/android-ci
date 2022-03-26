@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk
 
-MAINTAINER grosa1
+LABEL MAINTAINER="djalba98"
 
 ENV ANDROID_COMPILE_SDK=29
 ENV ANDROID_BUILD_TOOLS=29.0.2
@@ -22,4 +22,4 @@ ENV PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
 RUN yes | android-sdk-linux/tools/bin/sdkmanager --licenses
 ENV GRADLE_USER_HOME=$PWD/.gradle
 
-RUN npm install -g @ionic/cli cordova
+RUN npm install -g @ionic/cli @capacitor/cli jetifier cordova-res

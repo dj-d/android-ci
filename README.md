@@ -7,13 +7,13 @@ Docker image based on seanghay/android-ci for Ionic Android CI pipelines.
 
 ## Latest version:
 ```sh
-docker pull grosa1/ionic-android-ci:latest
+docker pull djalba98/ionic-android-ci:latest
 ```
 
 ## Usage in GitLab CI
 
 ```
-image: grosa1/ionic-android-ci
+image: djalba98/ionic-android-ci
     
 stages:
     - build
@@ -22,7 +22,12 @@ assembleDebug:
     stage: build
     script:
         - npm install
-        - ionic cordova build android
+        - ionic build
+        - jetify
+        - cordova-res android --skip-config --copy
+        - ionic cap sync --prod android
+        - cp google-service.json platforms/android/app/.
+        - ionic cap build android
         - cp platforms/android/app/build/outputs/apk/debug/app-debug.apk app-debug.apk
     artifacts:
         paths:
